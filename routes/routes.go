@@ -5,11 +5,17 @@ import (
 	"time"
 
 	"aura-erp/backend/controllers"
+	_ "aura-erp/backend/docs"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func SetupRoutes(router *gin.Engine) {
+	// Swagger documentation
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	api := router.Group("/api")
 	{
 		// Health check

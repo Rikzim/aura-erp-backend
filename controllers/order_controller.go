@@ -9,6 +9,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
+// GetAllOrders godoc
+// @Summary List orders
+// @Description Get all orders in the system
+// @Tags orders
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} models.Order
+// @Failure 500 {object} map[string]string
+// @Router /orders [get]
 func GetAllOrders(c *gin.Context) {
 	orders, err := services.GetAllOrders()
 	if err != nil {
@@ -18,7 +28,15 @@ func GetAllOrders(c *gin.Context) {
 
 	c.JSON(http.StatusOK, orders)
 }
-
+// GetOrderByID godoc
+// @Summary Get order by ID
+// @Description Get order by ID
+// @Tags orders
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.Order
+// @Failure 500 {object} map[string]string
+// @Router /orders/{id} [get]
 func GetOrderByID(c *gin.Context) {
 	id := c.Param("id")
 
@@ -31,6 +49,17 @@ func GetOrderByID(c *gin.Context) {
 	c.JSON(http.StatusOK, order)
 }
 
+// CreateOrder godoc
+// @Summary Create an order
+// @Description Create a new order
+// @Tags orders
+// @Accept  json
+// @Produce  json
+// @Param order body models.OrderCreate true "Order details"
+// @Success 201 {object} models.Order
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /orders [post]
 func CreateOrder(c *gin.Context) {
 	var data models.OrderCreate
 	if err := c.ShouldBindJSON(&data); err != nil {
@@ -51,7 +80,15 @@ func CreateOrder(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, order)
 }
-
+// UpdateOrder godoc
+// @Summary Update an order
+// @Description Update an order
+// @Tags orders
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.Order
+// @Failure 500 {object} map[string]string
+// @Router /orders/{id} [put]
 func UpdateOrder(c *gin.Context) {
 	id := c.Param("id")
 
@@ -74,7 +111,15 @@ func UpdateOrder(c *gin.Context) {
 
 	c.JSON(http.StatusOK, order)
 }
-
+// DeleteOrder godoc
+// @Summary Delete an order
+// @Description Delete an order
+// @Tags orders
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.Order
+// @Failure 500 {object} map[string]string
+// @Router /orders/{id} [delete]
 func DeleteOrder(c *gin.Context) {
 	id := c.Param("id")
 
@@ -88,7 +133,15 @@ func DeleteOrder(c *gin.Context) {
 }
 
 // ── Order Items ───────────────────────────────
-
+// GetOrderItems godoc
+// @Summary List order items
+// @Description Get all order items in the system
+// @Tags orders
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} models.OrderItem
+// @Failure 500 {object} map[string]string
+// @Router /orders/items [get]
 func GetOrderItems(c *gin.Context) {
 	orderID := c.Query("order_id")
 
@@ -111,7 +164,15 @@ func GetOrderItems(c *gin.Context) {
 
 	c.JSON(http.StatusOK, items)
 }
-
+// CreateOrderItem godoc
+// @Summary Create an order item
+// @Description Create a new order item
+// @Tags orders
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.OrderItem
+// @Failure 500 {object} map[string]string
+// @Router /orders/items [post]
 func CreateOrderItem(c *gin.Context) {
 	orderID := c.Query("order_id")
 	if orderID == "" {
@@ -138,7 +199,15 @@ func CreateOrderItem(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, item)
 }
-
+// UpdateOrderItem godoc
+// @Summary Update an order item
+// @Description Update an order item
+// @Tags orders
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.OrderItem
+// @Failure 500 {object} map[string]string
+// @Router /orders/items/{id} [put]
 func UpdateOrderItem(c *gin.Context) {
 	id := c.Param("id")
 
@@ -161,7 +230,15 @@ func UpdateOrderItem(c *gin.Context) {
 
 	c.JSON(http.StatusOK, item)
 }
-
+// DeleteOrderItem godoc
+// @Summary Delete an order item
+// @Description Delete an order item
+// @Tags orders
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.OrderItem
+// @Failure 500 {object} map[string]string
+// @Router /orders/items/{id} [delete]
 func DeleteOrderItem(c *gin.Context) {
 	id := c.Param("id")
 

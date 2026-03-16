@@ -10,6 +10,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// SearchProposals godoc
+// @Summary List proposals
+// @Description Get all proposals in the system
+// @Tags proposals
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} models.Proposal
+// @Failure 500 {object} map[string]string
+// @Router /proposals/search [get]
 func SearchProposals(c *gin.Context) {
 	q := c.Query("q")
 	limitStr := c.DefaultQuery("limit", "25")
@@ -26,7 +35,15 @@ func SearchProposals(c *gin.Context) {
 
 	c.JSON(http.StatusOK, results)
 }
-
+// GetAllProposals godoc
+// @Summary List proposals
+// @Description Get all proposals in the system
+// @Tags proposals
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} models.Proposal
+// @Failure 500 {object} map[string]string
+// @Router /proposals [get]
 func GetAllProposals(c *gin.Context) {
 	proposals, err := services.GetAllProposals()
 	if err != nil {
@@ -36,7 +53,15 @@ func GetAllProposals(c *gin.Context) {
 
 	c.JSON(http.StatusOK, proposals)
 }
-
+// GetProposalByID godoc
+// @Summary Get proposal by ID
+// @Description Get proposal by ID
+// @Tags proposals
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.Proposal
+// @Failure 500 {object} map[string]string
+// @Router /proposals/{id} [get]
 func GetProposalByID(c *gin.Context) {
 	id := c.Param("id")
 
@@ -48,7 +73,15 @@ func GetProposalByID(c *gin.Context) {
 
 	c.JSON(http.StatusOK, proposal)
 }
-
+// CreateProposal godoc
+// @Summary Create a proposal
+// @Description Create a new proposal
+// @Tags proposals
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.Proposal
+// @Failure 500 {object} map[string]string
+// @Router /proposals [post]
 func CreateProposal(c *gin.Context) {
 	var data models.ProposalCreate
 	if err := c.ShouldBindJSON(&data); err != nil {
@@ -69,7 +102,15 @@ func CreateProposal(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, proposal)
 }
-
+// UpdateProposal godoc
+// @Summary Update a proposal
+// @Description Update a proposal
+// @Tags proposals
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.Proposal
+// @Failure 500 {object} map[string]string
+// @Router /proposals/{id} [put]
 func UpdateProposal(c *gin.Context) {
 	id := c.Param("id")
 
@@ -93,6 +134,16 @@ func UpdateProposal(c *gin.Context) {
 	c.JSON(http.StatusOK, proposal)
 }
 
+// DeleteProposal godoc
+// @Summary Delete a proposal
+// @Description Remove a proposal from the system
+// @Tags proposals
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Proposal ID"
+// @Success 200 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Router /proposals/{id} [delete]
 func DeleteProposal(c *gin.Context) {
 	id := c.Param("id")
 
@@ -107,6 +158,17 @@ func DeleteProposal(c *gin.Context) {
 
 // ── Proposal Items ────────────────────────────
 
+// GetProposalItems godoc
+// @Summary List proposal items
+// @Description Get all items associated with a specific proposal
+// @Tags proposals
+// @Accept  json
+// @Produce  json
+// @Param proposal_id query int true "Proposal ID"
+// @Success 200 {array} models.ProposalItem
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /proposal-items [get]
 func GetProposalItems(c *gin.Context) {
 	proposalID := c.Query("proposal_id")
 	if proposalID == "" {
@@ -123,6 +185,18 @@ func GetProposalItems(c *gin.Context) {
 	c.JSON(http.StatusOK, items)
 }
 
+// CreateProposalItem godoc
+// @Summary Create a proposal item
+// @Description Add a new item to a proposal
+// @Tags proposals
+// @Accept  json
+// @Produce  json
+// @Param proposal_id query int true "Proposal ID"
+// @Param item body models.ProposalItemCreate true "Proposal item details"
+// @Success 201 {object} models.ProposalItem
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /proposal-items [post]
 func CreateProposalItem(c *gin.Context) {
 	proposalID := c.Query("proposal_id")
 	if proposalID == "" {
@@ -150,6 +224,18 @@ func CreateProposalItem(c *gin.Context) {
 	c.JSON(http.StatusCreated, item)
 }
 
+// UpdateProposalItem godoc
+// @Summary Update a proposal item
+// @Description Update details of an existing proposal item
+// @Tags proposals
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Proposal Item ID"
+// @Param item body models.ProposalItemUpdate true "Updated proposal item details"
+// @Success 200 {object} models.ProposalItem
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Router /proposal-items/{id} [put]
 func UpdateProposalItem(c *gin.Context) {
 	id := c.Param("id")
 
@@ -173,6 +259,16 @@ func UpdateProposalItem(c *gin.Context) {
 	c.JSON(http.StatusOK, item)
 }
 
+// DeleteProposalItem godoc
+// @Summary Delete a proposal item
+// @Description Remove an item from a proposal
+// @Tags proposals
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Proposal Item ID"
+// @Success 200 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Router /proposal-items/{id} [delete]
 func DeleteProposalItem(c *gin.Context) {
 	id := c.Param("id")
 

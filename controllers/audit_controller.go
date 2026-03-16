@@ -10,6 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetAllAuditLogs godoc
+// @Summary List audit logs
+// @Description Get a paginated list of system audit logs
+// @Tags audit
+// @Accept  json
+// @Produce  json
+// @Param limit query int false "Limit results" default(50)
+// @Param offset query int false "Offset results" default(0)
+// @Success 200 {array} models.AuditLog
+// @Failure 500 {object} map[string]string
+// @Router /audit-log [get]
 func GetAllAuditLogs(c *gin.Context) {
 	limitStr := c.Query("limit")
 	offsetStr := c.Query("offset")
@@ -33,6 +44,17 @@ func GetAllAuditLogs(c *gin.Context) {
 	c.JSON(http.StatusOK, logs)
 }
 
+// GetAuditLogsByEntity godoc
+// @Summary Get audit logs for an entity
+// @Description Get all audit logs associated with a specific entity type and ID
+// @Tags audit
+// @Accept  json
+// @Produce  json
+// @Param entityType path string true "Entity Type"
+// @Param entityId path int true "Entity ID"
+// @Success 200 {array} models.AuditLog
+// @Failure 500 {object} map[string]string
+// @Router /audit-log/{entityType}/{entityId} [get]
 func GetAuditLogsByEntity(c *gin.Context) {
 	entityType := c.Param("entityType")
 	entityID := c.Param("entityId")
@@ -46,6 +68,17 @@ func GetAuditLogsByEntity(c *gin.Context) {
 	c.JSON(http.StatusOK, logs)
 }
 
+// CreateAuditLog godoc
+// @Summary Create an audit log entry
+// @Description Manually create an audit log record
+// @Tags audit
+// @Accept  json
+// @Produce  json
+// @Param auditLog body models.AuditLogCreate true "Audit log details"
+// @Success 201 {object} models.AuditLog
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /audit-log [post]
 func CreateAuditLog(c *gin.Context) {
 	var data models.AuditLogCreate
 	if err := c.ShouldBindJSON(&data); err != nil {

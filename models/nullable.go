@@ -11,6 +11,7 @@ import (
 // FlexInt is an int that unmarshals from either a bare JSON number (42)
 // or a quoted JSON string ("42"). The frontend sends select values as
 // strings, so plain int fields like client_id need this flexibility.
+// @swaggertype integer
 type FlexInt int
 
 func (f FlexInt) MarshalJSON() ([]byte, error) {
@@ -50,6 +51,7 @@ func (f *FlexInt) UnmarshalJSON(data []byte) error {
 }
 
 // NullInt64 wraps sql.NullInt64 with proper JSON marshaling (null vs number)
+// @swaggertype integer
 type NullInt64 struct {
 	sql.NullInt64
 }
@@ -91,6 +93,7 @@ func (n *NullInt64) UnmarshalJSON(data []byte) error {
 }
 
 // NullString wraps sql.NullString with proper JSON marshaling (null vs string)
+// @swaggertype string
 type NullString struct {
 	sql.NullString
 }
@@ -112,6 +115,7 @@ func (n *NullString) UnmarshalJSON(data []byte) error {
 }
 
 // NullTime wraps sql.NullTime with proper JSON marshaling (null vs RFC3339 string)
+// @swaggertype string
 type NullTime struct {
 	sql.NullTime
 }

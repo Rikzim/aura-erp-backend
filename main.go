@@ -11,6 +11,21 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// @title Aura ERP API
+// @version 1.0
+// @description This is a powerful ERP backend for Aura.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.aura-erp.com/support
+// @contact.email support@aura-erp.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:5000
+// @BasePath /api
+
 func main() {
 	// Load environment variables
 	godotenv.Load()

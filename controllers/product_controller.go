@@ -10,6 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// SearchProducts godoc
+// @Summary Search products
+// @Description Search products by name
+// @Tags products
+// @Accept  json
+// @Produce  json
+// @Param q query string false "Search query"
+// @Param limit query int false "Limit results" default(25)
+// @Success 200 {array} models.ProductSearchResult
+// @Failure 500 {object} map[string]string
+// @Router /products/search [get]
 func SearchProducts(c *gin.Context) {
 	q := c.Query("q")
 	limitStr := c.DefaultQuery("limit", "25")
@@ -27,6 +38,15 @@ func SearchProducts(c *gin.Context) {
 	c.JSON(http.StatusOK, results)
 }
 
+// GetAllProducts godoc
+// @Summary List products
+// @Description Get all products in the system
+// @Tags products
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} models.Product
+// @Failure 500 {object} map[string]string
+// @Router /products [get]
 func GetAllProducts(c *gin.Context) {
 	products, err := services.GetAllProducts()
 	if err != nil {
@@ -49,6 +69,17 @@ func GetProductByID(c *gin.Context) {
 	c.JSON(http.StatusOK, product)
 }
 
+// CreateProduct godoc
+// @Summary Create a product
+// @Description Create a new product
+// @Tags products
+// @Accept  json
+// @Produce  json
+// @Param product body models.ProductCreate true "Product details"
+// @Success 201 {object} models.Product
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /products [post]
 func CreateProduct(c *gin.Context) {
 	var data models.ProductCreate
 	if err := c.ShouldBindJSON(&data); err != nil {

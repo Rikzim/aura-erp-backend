@@ -9,7 +9,7 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/backend-go ./main.go
 
-FROM alpine:3.22
+FROM alpine:3.21
 WORKDIR /app
 
 RUN apk add --no-cache ca-certificates tzdata \

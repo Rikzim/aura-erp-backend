@@ -1,0 +1,1818 @@
+basePath: /api
+definitions:
+  controllers.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  models.AuditLog:
+    properties:
+      action:
+        type: string
+      created_at:
+        type: string
+      entity_id:
+        type: integer
+      entity_type:
+        type: string
+      id:
+        type: integer
+      new_value:
+        items:
+          type: integer
+        type: array
+      old_value:
+        items:
+          type: integer
+        type: array
+      user_id:
+        $ref: '#/definitions/models.NullInt64'
+      user_name:
+        type: string
+    type: object
+  models.AuditLogCreate:
+    properties:
+      action:
+        type: string
+      entity_id:
+        type: integer
+      entity_type:
+        type: string
+      new_value:
+        items:
+          type: integer
+        type: array
+      old_value:
+        items:
+          type: integer
+        type: array
+      user_id:
+        $ref: '#/definitions/sql.NullInt64'
+    required:
+    - action
+    - entity_id
+    - entity_type
+    type: object
+  models.Client:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      notes:
+        type: string
+      phone:
+        type: string
+      updated_at:
+        type: string
+      vat_number:
+        type: string
+    type: object
+  models.ClientCreate:
+    properties:
+      address:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      notes:
+        type: string
+      phone:
+        type: string
+      vat_number:
+        type: string
+    required:
+    - name
+    type: object
+  models.ClientRevenue:
+    properties:
+      client_id:
+        type: integer
+      client_name:
+        type: string
+      revenue:
+        type: number
+    type: object
+  models.ClientSearchResult:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.ClientUpdate:
+    properties:
+      address:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      notes:
+        type: string
+      phone:
+        type: string
+      vat_number:
+        type: string
+    required:
+    - name
+    type: object
+  models.LabelCount:
+    properties:
+      count:
+        type: integer
+      label:
+        type: string
+    type: object
+  models.MonthCount:
+    properties:
+      count:
+        type: integer
+      month:
+        description: 1–12
+        type: integer
+      year:
+        type: integer
+    type: object
+  models.NullInt64:
+    properties:
+      int64:
+        format: int64
+        type: integer
+      valid:
+        description: Valid is true if Int64 is not NULL
+        type: boolean
+    type: object
+  models.NullString:
+    properties:
+      string:
+        type: string
+      valid:
+        description: Valid is true if String is not NULL
+        type: boolean
+    type: object
+  models.NullTime:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  models.Order:
+    properties:
+      client_id:
+        type: integer
+      client_name:
+        type: string
+      created_at:
+        type: string
+      due_date:
+        $ref: '#/definitions/models.NullTime'
+      id:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/models.OrderItem'
+        type: array
+      proposal_id:
+        $ref: '#/definitions/models.NullInt64'
+      proposal_reference:
+        $ref: '#/definitions/models.NullString'
+      reference:
+        type: string
+      section_id:
+        $ref: '#/definitions/models.NullInt64'
+      section_name:
+        $ref: '#/definitions/models.NullString'
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.OrderCreate:
+    properties:
+      client_id:
+        type: integer
+      due_date:
+        $ref: '#/definitions/models.NullTime'
+      proposal_id:
+        $ref: '#/definitions/models.NullInt64'
+      reference:
+        type: string
+      section_id:
+        $ref: '#/definitions/models.NullInt64'
+      status:
+        type: string
+    required:
+    - client_id
+    - reference
+    type: object
+  models.OrderItem:
+    properties:
+      id:
+        type: integer
+      notes:
+        type: string
+      order_id:
+        type: integer
+      product_id:
+        type: integer
+      product_name:
+        type: string
+      quantity:
+        type: number
+      unit:
+        type: string
+      unit_price:
+        type: number
+    type: object
+  models.Product:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      unit:
+        type: string
+      unit_price:
+        type: number
+    type: object
+  models.ProductCreate:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      unit:
+        type: string
+      unit_price:
+        type: number
+    required:
+    - name
+    - unit
+    - unit_price
+    type: object
+  models.ProductQty:
+    properties:
+      product_id:
+        type: integer
+      product_name:
+        type: string
+      total_qty:
+        type: number
+    type: object
+  models.ProductSearchResult:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.Proposal:
+    properties:
+      client_id:
+        type: integer
+      client_name:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/models.ProposalItem'
+        type: array
+      notes:
+        type: string
+      reference:
+        type: string
+      section_id:
+        $ref: '#/definitions/models.NullInt64'
+      section_name:
+        $ref: '#/definitions/models.NullString'
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.ProposalItem:
+    properties:
+      id:
+        type: integer
+      notes:
+        type: string
+      product_id:
+        type: integer
+      product_name:
+        type: string
+      proposal_id:
+        type: integer
+      quantity:
+        type: number
+      unit:
+        type: string
+      unit_price:
+        type: number
+    type: object
+  models.ProposalItemCreate:
+    properties:
+      notes:
+        type: string
+      product_id:
+        type: integer
+      quantity:
+        type: number
+      unit_price:
+        type: number
+    required:
+    - product_id
+    - quantity
+    - unit_price
+    type: object
+  models.ProposalItemUpdate:
+    properties:
+      notes:
+        type: string
+      product_id:
+        type: integer
+      quantity:
+        type: number
+      unit_price:
+        type: number
+    required:
+    - product_id
+    - quantity
+    - unit_price
+    type: object
+  models.Section:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.SectionCreate:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  models.SectionSearchResult:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.SectionUpdate:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  models.StatisticsResponse:
+    properties:
+      active_orders:
+        description: Active/completed
+        type: integer
+      avg_order_value:
+        type: number
+      clients_per_month:
+        items:
+          $ref: '#/definitions/models.MonthCount'
+        type: array
+      completed_orders:
+        description: completed + delivered
+        type: integer
+      conversion_rate:
+        description: Conversion (approved proposals / total proposals * 100)
+        type: number
+      orders_by_section:
+        description: Section breakdowns
+        items:
+          $ref: '#/definitions/models.LabelCount'
+        type: array
+      orders_by_status:
+        description: Status breakdowns
+        items:
+          $ref: '#/definitions/models.StatusCount'
+        type: array
+      orders_per_month:
+        description: Time series — last 6 calendar months
+        items:
+          $ref: '#/definitions/models.MonthCount'
+        type: array
+      proposals_by_section:
+        items:
+          $ref: '#/definitions/models.LabelCount'
+        type: array
+      proposals_by_status:
+        items:
+          $ref: '#/definitions/models.StatusCount'
+        type: array
+      proposals_per_month:
+        items:
+          $ref: '#/definitions/models.MonthCount'
+        type: array
+      top_clients_by_revenue:
+        description: Top-N lists
+        items:
+          $ref: '#/definitions/models.ClientRevenue'
+        type: array
+      top_products_by_qty:
+        items:
+          $ref: '#/definitions/models.ProductQty'
+        type: array
+      total_clients:
+        type: integer
+      total_order_revenue:
+        description: Revenue
+        type: number
+      total_orders:
+        description: Counts
+        type: integer
+      total_products:
+        type: integer
+      total_proposal_value:
+        type: number
+      total_proposals:
+        type: integer
+      total_sections:
+        type: integer
+    type: object
+  models.StatusCount:
+    properties:
+      count:
+        type: integer
+      status:
+        type: string
+    type: object
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password_hash:
+        type: string
+      role:
+        type: string
+    type: object
+  models.UserCreate:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password_hash:
+        type: string
+      role:
+        type: string
+    required:
+    - email
+    - name
+    - password_hash
+    - role
+    type: object
+  models.UserUpdate:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      role:
+        type: string
+    required:
+    - email
+    - name
+    - role
+    type: object
+  sql.NullInt64:
+    properties:
+      int64:
+        format: int64
+        type: integer
+      valid:
+        description: Valid is true if Int64 is not NULL
+        type: boolean
+    type: object
+host: localhost:5000
+info:
+  contact:
+    email: support@aura-erp.com
+    name: API Support
+    url: http://www.aura-erp.com/support
+  description: This is a powerful ERP backend for Aura.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Aura ERP API
+  version: "1.0"
+paths:
+  /audit-log:
+    get:
+      consumes:
+      - application/json
+      description: Get a paginated list of system audit logs
+      parameters:
+      - default: 50
+        description: Limit results
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: Offset results
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.AuditLog'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List audit logs
+      tags:
+      - audit
+    post:
+      consumes:
+      - application/json
+      description: Manually create an audit log record
+      parameters:
+      - description: Audit log details
+        in: body
+        name: auditLog
+        required: true
+        schema:
+          $ref: '#/definitions/models.AuditLogCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.AuditLog'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create an audit log entry
+      tags:
+      - audit
+  /audit-log/{entityType}/{entityId}:
+    get:
+      consumes:
+      - application/json
+      description: Get all audit logs associated with a specific entity type and ID
+      parameters:
+      - description: Entity Type
+        in: path
+        name: entityType
+        required: true
+        type: string
+      - description: Entity ID
+        in: path
+        name: entityId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.AuditLog'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get audit logs for an entity
+      tags:
+      - audit
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return a JWT token
+      parameters:
+      - description: Login credentials
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login user
+      tags:
+      - auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Logout user (client-side usually handles this by deleting the token)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Logout user
+      tags:
+      - auth
+  /auth/verify:
+    get:
+      consumes:
+      - application/json
+      description: Verify the JWT token and return user info
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Verify token
+      tags:
+      - auth
+  /clients:
+    get:
+      consumes:
+      - application/json
+      description: Get all clients in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Client'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List clients
+      tags:
+      - clients
+    post:
+      consumes:
+      - application/json
+      description: Create a new client
+      parameters:
+      - description: Client details
+        in: body
+        name: client
+        required: true
+        schema:
+          $ref: '#/definitions/models.ClientCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Client'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a client
+      tags:
+      - clients
+  /clients/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a client from the system
+      parameters:
+      - description: Client ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a client
+      tags:
+      - clients
+    get:
+      consumes:
+      - application/json
+      description: Get a single client by its ID
+      parameters:
+      - description: Client ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Client'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get client by ID
+      tags:
+      - clients
+    put:
+      consumes:
+      - application/json
+      description: Update an existing client's details
+      parameters:
+      - description: Client ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated client details
+        in: body
+        name: client
+        required: true
+        schema:
+          $ref: '#/definitions/models.ClientUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Client'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a client
+      tags:
+      - clients
+  /clients/search:
+    get:
+      consumes:
+      - application/json
+      description: Search clients by name
+      parameters:
+      - description: Search query
+        in: query
+        name: q
+        type: string
+      - default: 25
+        description: Limit results
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ClientSearchResult'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Search clients
+      tags:
+      - clients
+  /orders:
+    get:
+      consumes:
+      - application/json
+      description: Get all orders in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Order'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List orders
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: Create a new order
+      parameters:
+      - description: Order details
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.OrderCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Order'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create an order
+      tags:
+      - orders
+  /orders/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an order
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete an order
+      tags:
+      - orders
+    get:
+      consumes:
+      - application/json
+      description: Get order by ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get order by ID
+      tags:
+      - orders
+    put:
+      consumes:
+      - application/json
+      description: Update an order
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update an order
+      tags:
+      - orders
+  /orders/items:
+    get:
+      consumes:
+      - application/json
+      description: Get all order items in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.OrderItem'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List order items
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: Create a new order item
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderItem'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create an order item
+      tags:
+      - orders
+  /orders/items/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an order item
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderItem'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete an order item
+      tags:
+      - orders
+    put:
+      consumes:
+      - application/json
+      description: Update an order item
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderItem'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update an order item
+      tags:
+      - orders
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Get all products in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List products
+      tags:
+      - products
+    post:
+      consumes:
+      - application/json
+      description: Create a new product
+      parameters:
+      - description: Product details
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProductCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Product'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a product
+      tags:
+      - products
+  /products/search:
+    get:
+      consumes:
+      - application/json
+      description: Search products by name
+      parameters:
+      - description: Search query
+        in: query
+        name: q
+        type: string
+      - default: 25
+        description: Limit results
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ProductSearchResult'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Search products
+      tags:
+      - products
+  /proposal-items:
+    get:
+      consumes:
+      - application/json
+      description: Get all items associated with a specific proposal
+      parameters:
+      - description: Proposal ID
+        in: query
+        name: proposal_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ProposalItem'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List proposal items
+      tags:
+      - proposals
+    post:
+      consumes:
+      - application/json
+      description: Add a new item to a proposal
+      parameters:
+      - description: Proposal ID
+        in: query
+        name: proposal_id
+        required: true
+        type: integer
+      - description: Proposal item details
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProposalItemCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ProposalItem'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a proposal item
+      tags:
+      - proposals
+  /proposal-items/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove an item from a proposal
+      parameters:
+      - description: Proposal Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a proposal item
+      tags:
+      - proposals
+    put:
+      consumes:
+      - application/json
+      description: Update details of an existing proposal item
+      parameters:
+      - description: Proposal Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated proposal item details
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProposalItemUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ProposalItem'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a proposal item
+      tags:
+      - proposals
+  /proposals:
+    get:
+      consumes:
+      - application/json
+      description: Get all proposals in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Proposal'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List proposals
+      tags:
+      - proposals
+    post:
+      consumes:
+      - application/json
+      description: Create a new proposal
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Proposal'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a proposal
+      tags:
+      - proposals
+  /proposals/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a proposal from the system
+      parameters:
+      - description: Proposal ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a proposal
+      tags:
+      - proposals
+    get:
+      consumes:
+      - application/json
+      description: Get proposal by ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Proposal'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get proposal by ID
+      tags:
+      - proposals
+    put:
+      consumes:
+      - application/json
+      description: Update a proposal
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Proposal'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a proposal
+      tags:
+      - proposals
+  /proposals/search:
+    get:
+      consumes:
+      - application/json
+      description: Get all proposals in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Proposal'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List proposals
+      tags:
+      - proposals
+  /sections:
+    get:
+      consumes:
+      - application/json
+      description: Get all sections in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Section'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List sections
+      tags:
+      - sections
+    post:
+      consumes:
+      - application/json
+      description: Create a new section
+      parameters:
+      - description: Section details
+        in: body
+        name: section
+        required: true
+        schema:
+          $ref: '#/definitions/models.SectionCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Section'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a section
+      tags:
+      - sections
+  /sections/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a section from the system
+      parameters:
+      - description: Section ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a section
+      tags:
+      - sections
+    get:
+      consumes:
+      - application/json
+      description: Get a single section by its ID
+      parameters:
+      - description: Section ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Section'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get section by ID
+      tags:
+      - sections
+    put:
+      consumes:
+      - application/json
+      description: Update an existing section's details
+      parameters:
+      - description: Section ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated section details
+        in: body
+        name: section
+        required: true
+        schema:
+          $ref: '#/definitions/models.SectionUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Section'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a section
+      tags:
+      - sections
+  /sections/search:
+    get:
+      consumes:
+      - application/json
+      description: Search sections by name
+      parameters:
+      - description: Search query
+        in: query
+        name: q
+        type: string
+      - default: 25
+        description: Limit results
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SectionSearchResult'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Search sections
+      tags:
+      - sections
+  /statistics:
+    get:
+      consumes:
+      - application/json
+      description: Calculate and return key business metrics (counts, totals)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StatisticsResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get system statistics
+      tags:
+      - statistics
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get all registered users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Register a new user in the system
+      parameters:
+      - description: User details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a user
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a user from the system
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get details of a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get user by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update an existing user's details
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated user details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a user
+      tags:
+      - users
+swagger: "2.0"
